@@ -1,19 +1,16 @@
 package com.example.querydsl.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +19,12 @@ public class User {
     private String email;
 
     private int age;
+
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_id")
+    @ToString.Exclude
+    private Job job;
 }
